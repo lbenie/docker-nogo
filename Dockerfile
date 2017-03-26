@@ -18,6 +18,7 @@ VOLUME /src
 VOLUME /output
 
 WORKDIR /src
+RUN chmod +x /hugo.sh
 CMD ["/hugo.sh"]
 
 expose 1313
