@@ -9,7 +9,7 @@ RUN apk add --update wget ca-certificates nodejs && \
   tar xzf hugo_${HUGO_VERSION}_Linux-64bit.tar.gz && \
   rm -r hugo_${HUGO_VERSION}_Linux-64bit.tar.gz && \
   mv hugo*/hugo* /usr/bin/hugo && \
-  apk del wget && \
+  apk del wget ca-certificates && \
   rm /var/cache/apk/*
   
 COPY ./hugo.sh /hugo.sh
