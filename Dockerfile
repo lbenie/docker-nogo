@@ -1,7 +1,7 @@
 FROM alpine:latest
 MAINTAINER Lucien Bénié <lucien.benie@gmail.com>
 
-ENV HUGO_VERSION=0.15
+ENV HUGO_VERSION=0.16
 RUN apk add --update wget ca-certificates nodejs && \
   npm install -g npm@latest && \
   cd /tmp/ && \
