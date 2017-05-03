@@ -55,19 +55,20 @@ hugo:
     - .:/src
     - ./output/:/output
   environment:
-    - HUGO_REFRESH_TIME=3600 # rebuilds the project every hour if HUGO_WATCH is not set
+    - HUGO_REFRESH_TIME=90 # rebuilds the project every 90 seconds
     - HUGO_THEME=mytheme
-    - HUGO_BASEURL=mydomain.com
-    - HUGO_WATCH=true # for development
+    - HUGO_BASEURL= #b lank will bind the docker's IP automatically
+  ports:
+    - 1313
   restart: always
 web:
   image: jojomi/nginx-static
   volumes:
     - ./output:/var/www
   environment:
-    - VIRTUAL_HOST=mydomain.com
+    - VIRTUAL_HOST=localhost/
   ports:
-    - "80:80"
+    - "1313:80"
   restart: always
 ```
 
@@ -76,6 +77,8 @@ In your terminal run
 docker-compose up
 ```
 
-and Voilà !
+and Voilà ! 
+
+You can access your web server at `http://localhost:1313` served by nginx and updated every 90 seconds (HUGO_REFRESH_TIME=90)
 
 Happy coding ;)
