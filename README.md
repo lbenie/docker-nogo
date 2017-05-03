@@ -1,10 +1,13 @@
-# lbenie/nogo
+# lbenie/docker-nogo
 
-`lbenie/nogo` is a [Docker](https://www.docker.io) base image for static sites generated with [Hugo](http://gohugo.io).
+`lbenie/docker-nogo` is a [Docker](https://www.docker.io) base image for static sites generated with [Hugo](http://gohugo.io).
 
 Thanks to [publysher](https://github.com/publysher) for inspiring this image.
 
-In contrary of his docker image, I've added [nodejs](https://nodejs.org/) to the image since I needed `npm` to build my projects dependencies.
+In contrary of his docker image, I've added [nodejs](https://nodejs.org/) to the image since I needed `npm` to build my projects dependencies with bitbucket pipelines.
+Also it contains openssh for transfering files with scp over my production server.
+
+The build is relatively small at ~25MB.
 
 ## Prerequisites
 
@@ -24,7 +27,7 @@ The image is based on the following directory structure:
 ### Dockerfile
 
 ```Docker
-  FROM lucienb/nogo:latest
+  FROM lucienb/docker-nogo:latest
 ```
 
 ## Building your site
@@ -39,18 +42,18 @@ Your site is automatically generated during this build.
 
 Using this docker image together with nginx for serving static data.
 
-
 `docker-compose.yml`
 ```Docker
 hugo:
-  image: lucienb/nogo:latest
+  image: lucienb/docker-nogo:latest
   volumes:
     - .:/src
     - ./output/:/output
   environment:
-    - HUGO_REFRESH_TIME=3600
+    - HUGO_REFRESH_TIME=3600 # rebuilds the project every hour if HUGO_WATCH is not set
     - HUGO_THEME=mytheme
     - HUGO_BASEURL=mydomain.com
+    - HUGO_WATCH=true # for development
   restart: always
 web:
   image: jojomi/nginx-static
@@ -62,10 +65,12 @@ web:
     - "80:80"
   restart: always
 ```
+
+In your terminal run
 ```sh
 docker-compose up
 ```
 
-and Voila !
+and Voilà !
 
-Happy coding
+Happy coding ;)
