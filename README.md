@@ -24,7 +24,7 @@ The image is based on the following directory structure:
 ### Dockerfile
 
 ```Docker
-  FROM lbenie/nogo:latest
+  FROM lucienb/nogo:latest
 ```
 
 ## Building your site
@@ -42,7 +42,7 @@ Using this docker image together with nginx for serving static data.
 `docker.compose.yml`
 ```Docker
 hugo:
-  image: lbenie/nogo:latest
+  image: lucienb/nogo:latest
   volumes:
     - ./src/:/src
     - ./output/:/output
