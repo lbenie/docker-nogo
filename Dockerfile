@@ -2,7 +2,7 @@ FROM alpine:latest
 MAINTAINER Lucien Bénié <lucien.benie@gmail.com>
 
 ENV HUGO_VERSION=0.20.6
-RUN apk add --update wget ca-certificates nodejs && \
+RUN apk add --update wget ca-certificates nodejs rsync && \
   npm install -g npm@latest && \
   cd /tmp/ && \
   wget https://github.com/spf13/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz && \
