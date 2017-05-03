@@ -9,18 +9,18 @@ In contrary of his docker image, I've added [nodejs](https://nodejs.org/) to the
 ## Prerequisites
 
 The image is based on the following directory structure:
-
-	.
-	├── Dockerfile
-	├── docker-compose.yml
-        ├── config.toml
-        ├── content
-        │   └── ...
-        ├── layouts
-        │   └── ...
-        └── static
-	    └── ...
-
+```
+.
+├── Dockerfile
+├── docker-compose.yml
+├── config.toml
+├── content
+│   └── ...
+├── layouts
+│   └── ...
+└── static
+    └── ...
+```
 ### Dockerfile
 
 ```Docker
