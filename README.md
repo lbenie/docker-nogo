@@ -1,5 +1,10 @@
 # lbenie/docker-nogo
 
+[![Docker Build Statu](https://img.shields.io/docker/build/lucienb/docker-nogo.svg)]()
+[![Docker Automated buil](https://img.shields.io/docker/automated/lucienb/docker-nogo.svg)]()
+[![Docker Pulls](https://img.shields.io/docker/pulls/lucienb/docker-nogo.svg)]()
+[![Docker Stars](https://img.shields.io/docker/stars/lucienb/docker-nogo.svg)]()
+
 `lbenie/docker-nogo` is a [Docker](https://www.docker.io) base image for static sites generated with [Hugo](http://gohugo.io).
 
 Thanks to [publysher](https://github.com/publysher) for inspiring this image.
