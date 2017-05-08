@@ -10,7 +10,7 @@
 Thanks to [publysher](https://github.com/publysher) for inspiring this image.
 
 In contrary of his docker image, I've added [nodejs](https://nodejs.org/) to the image since I needed `npm` to build my projects dependencies with bitbucket pipelines.
-Also it contains openssh for transfering files with scp over my production server.
+Also it contains openssh for transfering files with scp/rsync over my production server.
 
 The build is relatively small at ~25MB.
 
@@ -57,9 +57,7 @@ hugo:
   environment:
     - HUGO_REFRESH_TIME=90 # rebuilds the project every 90 seconds
     - HUGO_THEME=mytheme
-    - HUGO_BASEURL= #b lank will bind the docker's IP automatically
-  ports:
-    - 1313
+    - HUGO_BASEURL=//localhost/
   restart: always
 web:
   image: jojomi/nginx-static
