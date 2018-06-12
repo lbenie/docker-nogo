@@ -1,3 +1,4 @@
 *.swp
 *.DS_Store
 Dockerfile-e
+node_modules

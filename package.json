@@ -1,0 +1,23 @@
+{
+  "name": "docker-nogo",
+  "version": "0.42",
+  "description": "Docker image for node + hugo",
+  "main": "Dockerfile",
+  "repository": "https://github.com/lbenie/docker-nogo.git",
+  "author": "Lucien Bénié <lucien.benie@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "release-major": "gulp release --semver major",
+    "release-minor": "gulp release --semver minor",
+    "release-patch": "gulp release"
+  },
+  "devDependencies": {
+    "fancy-log": "^1.3.2",
+    "gulp": "^3.9.1",
+    "gulp-bump": "^3.1.1",
+    "gulp-conventional-changelog": "^2.0.1",
+    "gulp-git": "^2.7.0",
+    "minimist": "^1.2.0",
+    "run-sequence": "^2.2.1"
+  }
+}
