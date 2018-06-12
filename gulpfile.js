@@ -6,6 +6,8 @@ const runSequence = require('run-sequence');
 const changelog = require('gulp-conventional-changelog');
 const exec = require('child_process').exec;
 
+let version;
+
 const bumpDockerFile = version => fs.readFile('Dockerfile', 'utf-8', (err, data) => {
   if (err) {
     log.error(err);
@@ -39,7 +41,7 @@ gulp.task('bump-version', done => {
       exit(-1);
     }
 
-    const version  = /\d.+/g.exec(JSON.parse(stdout).tag_name)[0];
+    version  = /\d.+/g.exec(JSON.parse(stdout).tag_name)[0];
     bumpDockerFile(version);
   })
 
@@ -49,14 +51,14 @@ gulp.task('bump-version', done => {
 gulp.task('commit-changelog', () => gulp
   .src('.')
   .pipe(git.add())
-  .pipe(git.commit(`docs(changelog): bumping version to ${version()}`))
+  .pipe(git.commit(`docs(changelog): bumping version to ${version}`))
 );
 
 gulp.task('push-changes', done => git.push('origin', 'master', done));
 
 
 gulp.task('create-new-tag', done =>
-  git.tag(`${version()}`, `Created Tag for version: ${version()}`, err => {
+  git.tag(`${version}`, `Created Tag for version: ${version}`, err => {
     if (err) {
       return done(err);
     }
@@ -66,7 +68,7 @@ gulp.task('create-new-tag', done =>
   }));
 
 gulp.task('release', done =>
-  runSequence('bump-version', 'changelog', 'commit-changelog', 'push-changes', 'create-new-tag', (err) => {
+  runSequence('bump-version', 'changelog', 'commit-changelog', 'push-changes', 'create-new-tag', err => {
     if (err) {
       log.error(err.message);
     } else {

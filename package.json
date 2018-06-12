@@ -8,9 +8,7 @@
   "author": "Lucien Bénié <lucien.benie@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "release-major": "gulp release --semver major",
-    "release-minor": "gulp release --semver minor",
-    "release-patch": "gulp release --semver minor"
+    "release": "gulp release"
   },
   "devDependencies": {
     "fancy-log": "^1.3.2",
