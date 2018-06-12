@@ -1,6 +1,7 @@
 {
   "name": "docker-nogo",
-  "version": "0.42",
+  "version": "0.43.0",
+  "dockerVersion": "0.42",
   "description": "Docker image for node + hugo",
   "main": "Dockerfile",
   "repository": "https://github.com/lbenie/docker-nogo.git",
@@ -9,7 +10,7 @@
   "scripts": {
     "release-major": "gulp release --semver major",
     "release-minor": "gulp release --semver minor",
-    "release-patch": "gulp release"
+    "release-patch": "gulp release --semver minor"
   },
   "devDependencies": {
     "fancy-log": "^1.3.2",

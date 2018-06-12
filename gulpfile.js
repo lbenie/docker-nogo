@@ -9,9 +9,7 @@ const changelog = require('gulp-conventional-changelog');
 
 const version = () => JSON.parse(fs.readFileSync('./package.json', 'utf-8')).version;
 
-const opts = minimist(process.argv.slice(2), {
-  semver: process.env.SEMVER || 'patch',
-});
+const opts = minimist(process.argv.slice(2));
 
 const bumpDockerFile = version => fs.readFile('Dockerfile', 'utf-8', (err, data) => {
   if (err) {
@@ -21,7 +19,7 @@ const bumpDockerFile = version => fs.readFile('Dockerfile', 'utf-8', (err, data)
 
   const result = data.replace(/\d.+$/, version);
 
-  fs.writeFile('Dockerfile', 'utf-8', err => {
+  fs.writeFile('Dockerfile', result, 'utf-8', err => {
     if (err) {
       log.error(err);
       exit(-1);
@@ -43,7 +41,7 @@ gulp.task('bump-version', () => gulp
 );
 
 gulp.task('bump-version-dockerfile', done => {
-  bumpDockerFile();
+  bumpDockerFile(version());
 
   done();
 })
@@ -77,4 +75,4 @@ gulp.task('release', done =>
     done(err);
   }));
 
-gulp.task('default', ['release']);
+gulp.task('default', ['bump-version', 'bump-version-dockerfile']);
