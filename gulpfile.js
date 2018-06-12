@@ -33,20 +33,20 @@ gulp.task('bump-version', done => {
   exec("curl -L -s -H 'Accept: application/json' https://github.com/gohugoio/hugo/releases/latest", (err, stdout, stderr) => {
     if (err) {
       log.error(err);
-      exit(-1)
+      done(err);
     }
 
     if (stderr) {
       log.error(stderr);
-      exit(-1);
+      done(err);
     }
 
     version  = /\d.+/g.exec(JSON.parse(stdout).tag_name)[0];
     bumpDockerFile(version);
-  })
+  });
 
   done();
-})
+});
 
 gulp.task('commit-changelog', () => gulp
   .src('.')
