@@ -2,14 +2,9 @@ const fs = require('fs');
 const gulp = require('gulp');
 const log = require('fancy-log');
 const git = require('gulp-git');
-const bump = require('gulp-bump');
-const minimist = require('minimist');
 const runSequence = require('run-sequence');
 const changelog = require('gulp-conventional-changelog');
-
-const version = () => JSON.parse(fs.readFileSync('./package.json', 'utf-8')).version;
-
-const opts = minimist(process.argv.slice(2));
+const exec = require('child_process').exec;
 
 const bumpDockerFile = version => fs.readFile('Dockerfile', 'utf-8', (err, data) => {
   if (err) {
@@ -32,16 +27,21 @@ gulp.task('changelog', () => gulp
   .pipe(changelog({ preset: 'angular', releaseCount: 0 }))
   .pipe(gulp.dest('.')));
 
-gulp.task('bump-version', () => gulp
-  .src('package.json')
-  .pipe(bump({
-    type: opts.semver
-  })).on('error', log.error)
-  .pipe(gulp.dest('./'))
-);
+gulp.task('bump-version', done => {
+  exec("curl -L -s -H 'Accept: application/json' https://github.com/gohugoio/hugo/releases/latest", (err, stdout, stderr) => {
+    if (err) {
+      log.error(err);
+      exit(-1)
+    }
 
-gulp.task('bump-version-dockerfile', done => {
-  bumpDockerFile(version());
+    if (stderr) {
+      log.error(stderr);
+      exit(-1);
+    }
+
+    const version  = /\d.+/g.exec(JSON.parse(stdout).tag_name)[0];
+    bumpDockerFile(version);
+  })
 
   done();
 })
@@ -66,7 +66,7 @@ gulp.task('create-new-tag', done =>
   }));
 
 gulp.task('release', done =>
-  runSequence('bump-version', 'bump-version-dockerfile', 'changelog', 'commit-changelog', 'push-changes', 'create-new-tag', (err) => {
+  runSequence('bump-version', 'changelog', 'commit-changelog', 'push-changes', 'create-new-tag', (err) => {
     if (err) {
       log.error(err.message);
     } else {
@@ -75,4 +75,4 @@ gulp.task('release', done =>
     done(err);
   }));
 
-gulp.task('default', ['bump-version', 'bump-version-dockerfile']);
+gulp.task('default', ['release']);
