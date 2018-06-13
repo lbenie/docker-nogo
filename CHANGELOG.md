@@ -1,5 +1,5 @@
 <a name="0.43.0"></a>
-# [0.43.0](https://github.com/lbenie/docker-nogo/compare/0.40.3...0.43.0) (2018-06-12)
+# [0.43.0](https://github.com/lbenie/docker-nogo/compare/0.40.3...0.43.0) (2018-06-13)
 
 
 
