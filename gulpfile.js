@@ -3,7 +3,6 @@ const gulp = require('gulp');
 const log = require('fancy-log');
 const git = require('gulp-git');
 const runSequence = require('run-sequence');
-const changelog = require('gulp-conventional-changelog');
 const exec = require('child_process').exec;
 
 let version;
@@ -24,11 +23,6 @@ const bumpDockerFile = version => fs.readFile('Dockerfile', 'utf-8', (err, data)
   });
 });
 
-gulp.task('changelog', () => gulp
-  .src('CHANGELOG.md', { buffer: false })
-  .pipe(changelog({ preset: 'angular', releaseCount: 0 }))
-  .pipe(gulp.dest('.')));
-
 gulp.task('bump-version', done => {
   exec("curl -L -s -H 'Accept: application/json' https://github.com/gohugoio/hugo/releases/latest", (err, stdout, stderr) => {
     if (err) {
@@ -48,13 +42,11 @@ gulp.task('bump-version', done => {
   done();
 });
 
-gulp.task('commit-changelog', () => gulp
-  .src('.')
-  .pipe(git.add())
-  .pipe(git.commit(`docs(changelog): bumping version to ${version}`))
-);
 
-gulp.task('push-changes', done => git.push('origin', 'master', done));
+gulp.task('push-changes', done => gulp
+  .src('.')
+  .pipe(git.commit('New release'))
+  .pipe(git.push('origin', 'master', done)));
 
 
 gulp.task('create-new-tag', done =>
@@ -68,7 +60,7 @@ gulp.task('create-new-tag', done =>
   }));
 
 gulp.task('release', done =>
-  runSequence('bump-version', 'changelog', 'commit-changelog', 'push-changes', 'create-new-tag', err => {
+  runSequence('bump-version', 'push-changes', 'create-new-tag', err => {
     if (err) {
       log.error(err.message);
     } else {
